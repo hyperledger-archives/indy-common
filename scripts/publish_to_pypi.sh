@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+
+BACK="$(tput cub1)"
+
+echo -e "\nWhich repos:"
+echo -e "  0. All following repos"
+echo -e "  1. Plenum-Common"
+echo -e "  2. Plenum-Client"
+echo -e "  3. Plenum-Node"
+read -ep $'Enter your choice (For example: 0 OR 1,2,3 etc): ' repos
+
+if [ "$repos" == "" ]; then
+    echo -e "\nInvalid choice, please re-run script with correct choice for repos"
+    exit
+fi;
+
+
+if [ "$repos" == "0" ]; then
+    repos="1,2,3"
+fi;
+
+echo -e "\nUpload to:"
+echo -e "  0. Both (pypi and pypitest)"
+echo -e "  1. Only pypi"
+echo -e "  2. Only pypitest"
+dest="0"
+read -p "Enter your choice: $dest$BACK" destinput
+dest="${destinput:-$dest}"
+
+usesetupfile="n"
+echo ""
+read -p "Do you want to use setup.py file (Y/n): $usesetupfile$BACK" setupinput
+usesetupfile="${setupinput:-$usesetupfile}"
+
+
+echo -e "\nVerify:"
+echo -e "  Selected repos: $repos"
+echo -e "  Upload to choice: $dest"
+echo -e "  Use setup.py file: $usesetupfile"
+
+echo ""
+cont="n"
+read -p "Continue (Y/n)? $cont$BACK" continput
+cont="${continput:-$cont}"
+
+if [ $cont != "Y" ];then
+    exit
+fi;
+
+
+curDir=`pwd`
+scriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo -e "Current script directory: $scriptDir"
+cd $scriptDir
+cd ../..
+allRepoParentDir=`pwd`
+
+suffix="-priv"
+if [ "$usesetupfile" == "Y" ]; then
+    suffix = "-pub"
+fi;
+
+export IFS=","
+for repo in $repos
+do
+    cd $allRepoParentDir
+
+    repoName=""
+    if [ $repo -eq "1" ]; then
+        repoName="plenum-common$suffix"
+    elif [ $repo -eq "2" ]; then
+        repoName="plenum-client$suffix"
+    elif [ $repo -eq 3 ]; then
+        repoName="plenum-node$suffix"
+    else
+        echo -e "Not supported this repo $repo"
+        exit
+    fi
+    cd $repoName
+    cdir=`pwd`
+    echo -e "\n\nabout to start uploading $repoName... [cur dir: $cdir]"
+
+    if [ "$usesetupfile" != "Y" ]; then
+        echo -e "Temporary changes to use setup-dev.py file"
+        mv setup.py setup-st.py
+        mv setup-dev.py setup.py
+    fi;
+
+    if [[ "$dest" == "0" || "$dest" == "2" ]]; then
+        echo -e "About to upload to pypitest..."
+        python setup.py register -r pypitest
+        python setup.py sdist upload -r pypitest
+    fi;
+
+    if [[ "$dest" == "0" || "$dest" == "1" ]]; then
+        echo -e "About to upload to pypi..."
+        python setup.py register -r pypi
+        python setup.py sdist upload -r pypi
+    fi;
+
+    if [ "$usesetupfile" != "Y" ]; then
+        echo -e "Reverting back temporary changes done to use setup-dev.py file"
+        mv setup.py setup-dev.py
+        mv setup-st.py setup.py
+    fi;
+
+    echo -e "finished uploading $repoName to pypi\n"
+done
+
+cd $curDir
