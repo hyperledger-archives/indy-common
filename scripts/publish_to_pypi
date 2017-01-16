@@ -4,10 +4,13 @@ BACK="$(tput cub1)"
 
 echo -e "\nWhich repos:"
 echo -e "  0. All following repos"
-echo -e "  1. Plenum-Common"
-echo -e "  2. Plenum-Client"
-echo -e "  3. Plenum-Node"
-read -ep $'Enter your choice (For example: 0 OR 1,2,3 etc): ' repos
+echo -e "  1. sovrin-common"
+echo -e "  2. sovrin-client"
+echo -e "  3. sovrin-node"
+echo -e "  4. plenum"
+echo -e "  5. ledger"
+echo -e "  6. anoncreds"
+read -ep $'Enter your choice (For example: 0 OR 1,2,5 etc): ' repos
 
 if [ "$repos" == "" ]; then
     echo -e "\nInvalid choice, please re-run script with correct choice for repos"
@@ -16,7 +19,7 @@ fi;
 
 
 if [ "$repos" == "0" ]; then
-    repos="1,2,3"
+    repos="1,2,3,4,5,6"
 fi;
 
 echo -e "\nUpload to:"
@@ -27,16 +30,9 @@ dest="0"
 read -p "Enter your choice: $dest$BACK" destinput
 dest="${destinput:-$dest}"
 
-usesetupfile="n"
-echo ""
-read -p "Do you want to use setup.py file (Y/n): $usesetupfile$BACK" setupinput
-usesetupfile="${setupinput:-$usesetupfile}"
-
-
 echo -e "\nVerify:"
 echo -e "  Selected repos: $repos"
 echo -e "  Upload to choice: $dest"
-echo -e "  Use setup.py file: $usesetupfile"
 
 echo ""
 cont="n"
@@ -55,11 +51,6 @@ cd $scriptDir
 cd ../..
 allRepoParentDir=`pwd`
 
-suffix="-priv"
-if [ "$usesetupfile" == "Y" ]; then
-    suffix = "-pub"
-fi;
-
 export IFS=","
 for repo in $repos
 do
@@ -67,24 +58,24 @@ do
 
     repoName=""
     if [ $repo -eq "1" ]; then
-        repoName="plenum-common$suffix"
+        repoName="sovrin-common"
     elif [ $repo -eq "2" ]; then
-        repoName="plenum-client$suffix"
-    elif [ $repo -eq 3 ]; then
-        repoName="plenum-node$suffix"
+        repoName="sovrin-client"
+    elif [ $repo -eq "3" ]; then
+        repoName="sovrin-node"
+    elif [ $repo -eq "4" ]; then
+        repoName="plenum"
+    elif [ $repo -eq 5 ]; then
+        repoName="ledger"
+    elif [ $repo -eq 6 ]; then
+        repoName="anoncreds"
     else
-        echo -e "Not supported this repo $repo"
+        echo -e "This repo is not supported: $repo"
         exit
     fi
     cd $repoName
     cdir=`pwd`
     echo -e "\n\nabout to start uploading $repoName... [cur dir: $cdir]"
-
-    if [ "$usesetupfile" != "Y" ]; then
-        echo -e "Temporary changes to use setup-dev.py file"
-        mv setup.py setup-st.py
-        mv setup-dev.py setup.py
-    fi;
 
     if [[ "$dest" == "0" || "$dest" == "2" ]]; then
         echo -e "About to upload to pypitest..."
@@ -96,12 +87,6 @@ do
         echo -e "About to upload to pypi..."
         python setup.py register -r pypi
         python setup.py sdist upload -r pypi
-    fi;
-
-    if [ "$usesetupfile" != "Y" ]; then
-        echo -e "Reverting back temporary changes done to use setup-dev.py file"
-        mv setup.py setup-dev.py
-        mv setup-st.py setup.py
     fi;
 
     echo -e "finished uploading $repoName to pypi\n"

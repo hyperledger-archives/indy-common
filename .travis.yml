@@ -1,0 +1,14 @@
+language: python
+python:
+    - 3.5
+
+install:
+    - pip install -U -e .
+
+script:
+    - python -m sovrin_common.test
+
+notifications:
+    email:
+        on_success: change # default: change
+        on_failure: always # default: always

@@ -30,6 +30,8 @@ METADATA = os.path.join(SETUP_DIRNAME, 'sovrin_common', '__metadata__.py')
 # Load the metadata using exec() so we don't trigger an import of ioflo.__init__
 exec(compile(open(METADATA).read(), METADATA, 'exec'))
 
+BASE_DIR = os.path.join(os.path.expanduser("~"), ".sovrin")
+CONFIG_FILE = os.path.join(BASE_DIR, "sovrin_config.py")
 
 setup(
     name='sovrin-common',
@@ -40,11 +42,19 @@ setup(
     author_email='dev@evernym.us',
     license=__license__,
     keywords='Sovrin Common',
+    packages=find_packages(exclude=['test', 'test.*', 'docs', 'docs*']) + [
+        'data'],
+    package_data={
+        '': ['*.txt', '*.md', '*.rst', '*.json', '*.conf', '*.html',
+             '*.css', '*.ico', '*.png', 'LICENSE', 'LEGAL', '*.sovrin']},
+    include_package_data=True,
+    data_files=[(
+        (BASE_DIR, ['data/pool_transactions_sandbox', ])
+    )],
+    install_requires=['plenum'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
-    packages=find_packages(exclude=['test', 'test.*',
-                                      'docs', 'docs*']),
-    package_data={
-        '':       ['*.txt',  '*.md', '*.rst', '*.json', '*.conf', '*.html',
-                   '*.css', '*.ico', '*.png', 'LICENSE', 'LEGAL']},
+    scripts=['scripts/get_keys',
+             'scripts/generate_sovrin_pool_transactions',
+             'scripts/init_sovrin_raet_keep'],
 )

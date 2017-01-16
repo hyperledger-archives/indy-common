@@ -1,3 +1,3 @@
-from plenum_common import test
+from sovrin_common import test
 
 test.run()
