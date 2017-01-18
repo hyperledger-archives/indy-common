@@ -1,5 +1,6 @@
 from plenum.common.txn import TARGET_NYM, TXN_TYPE, NYM, ROLE, STEWARD, VERKEY
 from plenum.common.types import Identifier
+from sovrin_common.auth import Authoriser
 
 from sovrin_common.generates_request import GeneratesRequest
 from sovrin_common.txn import SPONSOR, GET_NYM
@@ -22,7 +23,8 @@ class Identity(GeneratesRequest):
         self.verkey = verkey
 
         # None indicates the identifier is a cryptonym
-        if role and role not in (SPONSOR, STEWARD):
+        # if role and role not in (SPONSOR, STEWARD):
+        if not Authoriser.isValidRole(role):
             raise AttributeError("Invalid role {}".format(role))
         self.role = role
 
