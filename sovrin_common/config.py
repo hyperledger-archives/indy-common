@@ -91,3 +91,19 @@ nextVersionFile = 'next_version'
 
 # Minimum time difference (seconds) between the code update of 2 nodes
 MinSepBetweenNodeUpgrades = 300
+
+
+upgradeLogFile = "upgrade_log"
+
+lastVersionFilePath = "last_version_file"
+
+ENVS = {
+    "test": Environment("pool_transactions_sandbox", "transactions_sandbox"),
+    "live": Environment("pool_transactions_live", "transactions_live")
+}
+
+'''
+Node control utils options
+'''
+controlServiceHost = "127.0.0.1"
+controlServicePort = "30003"

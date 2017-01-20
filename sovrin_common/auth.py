@@ -1,12 +1,13 @@
 from plenum.common.log import getlogger
-from sovrin_common.txn import STEWARD, SPONSOR, OWNER, TGB
-from sovrin_common.txn import TRUSTEE
+from sovrin_common.txn import STEWARD, SPONSOR, OWNER, TGB, TRUSTEE
 
 
 logger = getlogger()
 
 
 class Authoriser:
+    ValidRoles = (TRUSTEE, TGB, STEWARD, SPONSOR, None)
+
     AuthMap = {
         'NYM_role__TRUSTEE': {TRUSTEE: [], },
         'NYM_role__TGB': {TRUSTEE: [], },
@@ -19,13 +20,13 @@ class Authoriser:
         'NYM_role_SPONSOR_': {TRUSTEE: []},
         'NODE_services__[VALIDATOR]': {STEWARD: [OWNER, ]},
         'NODE_services_[VALIDATOR]_[]': {TRUSTEE: [], STEWARD: [OWNER, ]},
-        'POOL_UPGRADE_action__start': {TRUSTEE: []},
-        'POOL_UPGRADE_action_start_cancel': {TRUSTEE: []}
+        'POOL_UPGRADE_action__start': {TRUSTEE: [], TGB: []},
+        'POOL_UPGRADE_action_start_cancel': {TRUSTEE: [], TGB: []}
     }
 
     @staticmethod
     def isValidRole(role) -> bool:
-        return role in (TRUSTEE, TGB, STEWARD, SPONSOR, None)
+        return role in Authoriser.ValidRoles
 
     @staticmethod
     def authorised(typ, field, actorRole, oldVal=None, newVal=None,

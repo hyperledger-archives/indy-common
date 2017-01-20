@@ -18,6 +18,7 @@ START = 'start'
 CANCEL = 'cancel'
 COMPLETE = 'complete'
 FAIL = 'fail'
+JUSTIFICATION = 'justification'
 
 NIL = '<nil>'
 OWNER = '<owner>'
