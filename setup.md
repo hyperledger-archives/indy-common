@@ -1,8 +1,8 @@
-# Sovrin -- identity for all
+# Sovrin Common
 
-Sovrin Identity Network public/permissioned distributed ledger
+Common utility functions for other Sovrin repos (like sovrin-client, sovrin-node etc)
 
-### Common (for sovrin-client or sovrin-node) Setup Instructions
+### Common Setup Instructions (sovrin-client or sovrin-node) 
 
 As of Oct 3, these setup instructions are validated at a beta level.
 We are aware of a few cases where you might hit roadblocks, depending
