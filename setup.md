@@ -2,6 +2,20 @@
 
 Common utility functions for other Sovrin repos (like sovrin-client, sovrin-node etc)
 
+
+### OrientDB Setup Instructions
+
+Install OrientDB from [here](https://github.com/evernym/sovrin-common/blob/master/orientdb_installation.md).
+
+
+### Charm-Crypto Setup Instructions
+
+Sovrin-client requires anonymous credentials library which requires a cryptographic library.
+The default configuration includes an example that uses Charm-Crypto framework.
+The steps to install charm-crypto are mentioned in our [Anonymous Credentials](https://github.com/evernym/anoncreds) repository. 
+You just have to run `setup-charm.sh` script. It will require sudo privileges on the system.
+
+
 ### Common Setup Instructions (sovrin-client or sovrin-node) 
 
 As of Oct 3, these setup instructions are validated at a beta level.
