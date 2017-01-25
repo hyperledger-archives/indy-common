@@ -4,7 +4,7 @@ from collections import OrderedDict
 from plenum.common.txn import TXN_TYPE, TARGET_NYM, ORIGIN, DATA, TXN_ID, TXN_TIME, \
     RAW, ENC, HASH, NAME, VERSION, TYPE, POOL_TXN_TYPES, ALIAS, \
     STEWARD, NYM, VERKEY
-from plenum.common.types import f, TaggedTuple
+from plenum.common.types import f
 
 ROLE = 'role'
 NONCE = 'nonce'
@@ -34,7 +34,7 @@ REVOCATION = "revocation"
 
 allOpKeys = (TXN_TYPE, TARGET_NYM, VERKEY, ORIGIN, ROLE, DATA, NONCE, REF, RAW,
              ENC, HASH, ALIAS, ACTION, SCHEDULE, TIMEOUT, SHA256, START, CANCEL,
-             NAME, VERSION)
+             NAME, VERSION, JUSTIFICATION)
 
 reqOpKeys = (TXN_TYPE,)
 
