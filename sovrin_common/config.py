@@ -97,11 +97,6 @@ upgradeLogFile = "upgrade_log"
 
 lastVersionFilePath = "last_version_file"
 
-ENVS = {
-    "test": Environment("pool_transactions_sandbox", "transactions_sandbox"),
-    "live": Environment("pool_transactions_live", "transactions_live")
-}
-
 '''
 Node control utils options
 '''
