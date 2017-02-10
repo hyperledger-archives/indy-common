@@ -20,7 +20,7 @@ COMPLETE = 'complete'
 FAIL = 'fail'
 JUSTIFICATION = 'justification'
 
-NIL = '<nil>'
+NULL = 'null'
 OWNER = '<owner>'
 
 LAST_TXN = "lastTxn"

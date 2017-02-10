@@ -18,6 +18,7 @@ class Authoriser:
         'NYM_role_TGB_': {TRUSTEE: []},
         'NYM_role_STEWARD_': {TRUSTEE: []},
         'NYM_role_SPONSOR_': {TRUSTEE: []},
+        'NYM_verkey_<any>_<any>': {r: [OWNER] for r in ValidRoles},
         'NODE_services__[VALIDATOR]': {STEWARD: [OWNER, ]},
         'NODE_services_[VALIDATOR]_[]': {TRUSTEE: [], STEWARD: [OWNER, ]},
         'POOL_UPGRADE_action__start': {TRUSTEE: [], TGB: []},

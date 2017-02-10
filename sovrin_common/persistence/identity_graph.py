@@ -294,15 +294,11 @@ class IdentityGraph(OrientDbGraphStore):
         }
         self.createEdge(Edges.HasIssuerKey, frm, vertex._rid, **kwargs)
 
-    def updateNym(self, txnId, nym, verkey, seqNo, role):
-        kwargs = {
+    def updateNym(self, txnId, nym, seqNo, **kwargs):
+        kwargs.update({
             TXN_ID: txnId,
-            F.seqNo.name: seqNo,
-            ROLE: role,
-        }
-        if verkey is not None:
-            kwargs[VERKEY] = verkey
-
+            F.seqNo.name: seqNo
+        })
         self.updateEntityWithUniqueId(Vertices.Nym, NYM, nym, **kwargs)
 
     def getRawAttrs(self, frm, *attrNames):
@@ -432,6 +428,16 @@ class IdentityGraph(OrientDbGraphStore):
                                       "{} = '{}'".format(Edges.AddsNym,
                                                          NYM, nym))
         return None if not sponsor else sponsor[0].oRecordData.get(NYM)
+
+    def getOwnerFor(self, nym):
+        nymV = self.getNym(nym)
+        if nymV:
+            nymData = nymV.oRecordData
+            if VERKEY not in nymData:
+                return self.getSponsorFor(nym)
+            else:
+                return nym
+        logger.error('Nym {} not found'.format(nym))
 
     def countStewards(self):
         return self.countEntitiesByAttrs(Vertices.Nym, {ROLE: STEWARD})
@@ -565,23 +571,33 @@ class IdentityGraph(OrientDbGraphStore):
         if not Authoriser.isValidRole(role):
             raise ValueError("Unknown role {} for nym, cannot add nym to graph"
                              .format(role))
-        nym = txn[TARGET_NYM]
         verkey = txn.get(VERKEY)
+        nym = txn[TARGET_NYM]
         try:
             txnId = txn[TXN_ID]
             seqNo = txn.get(F.seqNo.name)
             # Since NYM vertex has a unique index on the identifier,
-            # (CID or DID) a unique constraint violattion would occur if the
+            # (CID or DID) a unique constraint violation would occur if the
             # nym exists. Instead of catching an exception, a call to hasNym or
             #  getNym could be done but since NYM update txns would be less
-            # common then NYM adding transactions so avoidinhg the cost of
+            # common then NYM adding transactions so avoiding the cost of
             # extra db query
             try:
                 self.addNym(txnId, nym, verkey, role,
                             frm=origin, reference=txn.get(REF),
                             seqNo=seqNo)
             except pyorient.PyOrientORecordDuplicatedException:
-                self.updateNym(txnId, nym, verkey, seqNo, role)
+                updateData = {}
+                # Since role can be None, it is only included for update if
+                # it was supplied in the transaction as if ROLE was not
+                # supplied in transaction, the client did not intend to update
+                # the role, but if absence of role is considered None then it
+                # will lead to the identity losing its role
+                if ROLE in txn:
+                    updateData[ROLE] = txn[ROLE]
+                if VERKEY in txn:
+                    updateData[VERKEY] = txn[VERKEY]
+                self.updateNym(txnId, nym, seqNo, **updateData)
             else:
                 # Only update edge in case of new NYM transaction
                 self._updateTxnIdEdgeWithTxn(txnId, Edges.AddsNym, txn)
