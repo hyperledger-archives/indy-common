@@ -38,10 +38,12 @@ class Authoriser:
             str(newVal).replace('"', '').replace("'", '')
         key = '_'.join([typ, field, oldVal, newVal])
         if key not in Authoriser.AuthMap:
-            msg = 'Cannot create key from {} {} {} {}'.\
-                format(typ, field, oldVal, newVal)
-            logger.error(msg)
-            return False, msg
+            key = '_'.join([typ, field, '<any>', '<any>'])
+            if key not in Authoriser.AuthMap:
+                msg = 'Cannot create key from {} {} {} {}'.\
+                    format(typ, field, oldVal, newVal)
+                logger.error(msg)
+                return False, msg
         roles = Authoriser.AuthMap[key]
         if actorRole not in roles:
             return False, '{} not in allowed roles {}'.format(actorRole, roles)
