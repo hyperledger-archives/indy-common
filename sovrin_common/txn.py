@@ -68,36 +68,6 @@ NODE_UPGRADE = 'NODE_UPGRADE'
 # Temp for demo
 GEN_CRED = "GEN_CRED"
 
-openTxns = (GET_NYM, GET_ATTR, GET_SCHEMA, GET_ISSUER_KEY)
-
-
-# TXN_TYPE -> (requireds, optionals)
-fields = {NYM: ([TARGET_NYM], [ROLE]),
-          ATTRIB: ([], [RAW, ENC, HASH]),
-          SCHEMA: ([NAME, VERSION, ATTR_NAMES], [TYPE, ]),
-          GET_SCHEMA: ([], []),
-          ISSUER_KEY: ([REF, DATA]),
-          GET_ISSUER_KEY: ([REF, ORIGIN])
-          }
-
-CONFIG_TXN_TYPES = {POOL_UPGRADE, NODE_UPGRADE}
-IDENTITY_TXN_TYPES = {NYM,
-                      ATTRIB,
-                      IDPROOF,
-                      DISCLO,
-                      GET_ATTR,
-                      GET_NYM,
-                      GET_TXNS,
-                      SCHEMA,
-                      GET_SCHEMA,
-                      ISSUER_KEY,
-                      GET_ISSUER_KEY}
-
-validTxnTypes = set()
-validTxnTypes.update(POOL_TXN_TYPES)
-validTxnTypes.update(IDENTITY_TXN_TYPES)
-validTxnTypes.update(CONFIG_TXN_TYPES)
-
 
 def AddNym(target, role=None):
     return newTxn(txnType=NYM, target=target, role=role)
@@ -213,7 +183,7 @@ def getTxnOrderedFields():
     return OrderedDict([
         (f.IDENTIFIER.nm, (str, str)),
         (f.REQ_ID.nm, (str, int)),
-        (TXN_ID, (str, str)),
+        (f.SIG.nm, (str, str)),
         (TXN_TIME, (str, int)),
         (TXN_TYPE, (str, str)),
         (TARGET_NYM, (str, str)),
