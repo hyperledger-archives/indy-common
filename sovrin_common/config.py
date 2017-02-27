@@ -25,6 +25,7 @@ baseDir = "~/.sovrin"
 domainTransactionsFile = "transactions_sandbox"
 poolTransactionsFile = "pool_transactions_sandbox"
 configTransactionsFile = "config_transactions"
+configStateDbName = 'config_state'
 
 logFilePath = "cli.log"
 
