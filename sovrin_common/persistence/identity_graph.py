@@ -650,7 +650,7 @@ class IdentityGraph(OrientDbGraphStore):
             self._updateTxnIdEdgeWithTxn(txnId, Edges.HasIssuerKey, txn)
         except Exception as ex:
             fault(ex, "Error adding issuer key to orientdb")
-        pass
+            pass
 
     def countTxns(self):
         seqNos = set()
