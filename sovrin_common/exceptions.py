@@ -37,3 +37,8 @@ class LinkNotReady(RuntimeError):
 
 class NotConnectedToNetwork(RuntimeError):
     pass
+
+
+class SovrinNotAvailable(Exception):
+    def __init__(self):
+        super().__init__("Sovrin not available")
