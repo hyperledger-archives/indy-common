@@ -13,7 +13,8 @@ def cleanup_environment(name, config):
     pass
 
 
-def initialize_node_environment(name, base_dir, sigseed=None, override=False,
+def initialize_node_environment(name, base_dir, sigseed=None,
+                                override_keep=False,
                                 config=None):
     # Question: Does this comment belong here? I dont think so.
     """
@@ -21,7 +22,7 @@ def initialize_node_environment(name, base_dir, sigseed=None, override=False,
     abstracted a bit more, this function and the one below will be the same
     and likely a method of an interface
     """
-    vk = p_initialize_node_environment(name, base_dir, sigseed, override)
     config = config or getConfig()
     cleanup_environment(name, config)
+    vk = p_initialize_node_environment(name, base_dir, sigseed, override_keep)
     return vk
