@@ -37,4 +37,3 @@ class LinkNotReady(RuntimeError):
 
 class NotConnectedToNetwork(RuntimeError):
     pass
-
