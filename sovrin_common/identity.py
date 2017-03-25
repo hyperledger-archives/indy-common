@@ -1,5 +1,5 @@
 from plenum.common.txn import TARGET_NYM, TXN_TYPE, NYM, ROLE, STEWARD, VERKEY
-from plenum.common.types import Identifier
+from stp_core.types import Identifier
 from sovrin_common.auth import Authoriser
 
 from sovrin_common.generates_request import GeneratesRequest
