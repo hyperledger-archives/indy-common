@@ -56,5 +56,5 @@ setup(
     tests_require=['pytest'],
     scripts=['scripts/get_keys',
              'scripts/generate_sovrin_pool_transactions',
-             'scripts/init_sovrin_raet_keep'],
+             'scripts/init_sovrin_keys'],
 )
