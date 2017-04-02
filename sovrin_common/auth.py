@@ -82,12 +82,14 @@ class Authoriser:
             str(newVal).replace('"', '').replace("'", '')
         key = '_'.join([typ, field, oldVal, newVal])
         if key not in Authoriser.AuthMap:
-            key = '_'.join([typ, field, '<any>', '<any>'])
-            if key not in Authoriser.AuthMap:
+            anyKey = '_'.join([typ, field, '<any>', '<any>'])
+            if anyKey not in Authoriser.AuthMap:
                 msg = "key '{}' not found in authorized map". \
                     format(key)
                 logger.error(msg)
                 return False, msg
+            else:
+                key = anyKey
         roles = Authoriser.AuthMap[key]
         if actorRole not in roles:
             return False, '{} not in allowed roles {}'.format(actorRole, roles)

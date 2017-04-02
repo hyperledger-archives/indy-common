@@ -28,6 +28,10 @@ class RemoteEndpointNotFound(NotFound):
     pass
 
 
+class RemotePubkeyNotFound(NotFound):
+    pass
+
+
 class LinkAlreadyExists(RuntimeError):
     pass
 

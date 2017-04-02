@@ -9,18 +9,19 @@ from sovrin_common.constants import ATTRIB
 
 
 class Request(PRequest):
-    def getSigningState(self):
+    @property
+    def signingState(self):
         """
         Special signing state where the the data for an attribute is hashed
         before signing
         :return: state to be used when signing
         """
         if self.operation.get(TXN_TYPE) == ATTRIB:
-            d = deepcopy(super().getSigningState())
+            d = deepcopy(super().signingState)
             op = d[OPERATION]
             keyName = {RAW, ENC, HASH}.intersection(set(op.keys())).pop()
             op[keyName] = sha256(op[keyName].encode()).hexdigest()
             return d
-        return super().getSigningState()
+        return super().signingState
 
 
