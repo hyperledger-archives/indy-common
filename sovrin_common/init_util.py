@@ -27,7 +27,7 @@ def initialize_node_environment(name, base_dir, sigseed=None,
     config = config or getConfig()
     cleanup_environment(name, config)
     vk = p_initialize_node_environment(name, base_dir, sigseed, override_keep)
-    HasFileStorage(name, base_dir, dataDir=None).wipe()
+    # HasFileStorage(name, base_dir, dataDir=None).wipe()
     # OrientDbStore(user, password, name).store.wipe_db(self.name)
 
     return vk
