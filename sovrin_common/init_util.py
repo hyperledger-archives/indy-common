@@ -1,4 +1,3 @@
-from plenum.common.has_file_storage import HasFileStorage
 from plenum.common.init_util import initialize_node_environment as \
     p_initialize_node_environment
 from plenum.persistence.orientdb_store import OrientDbStore
