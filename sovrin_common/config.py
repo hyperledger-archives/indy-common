@@ -80,6 +80,9 @@ ENVS = {
     "live": Environment("pool_transactions_live", "transactions_live")
 }
 
+
+# TODO: This should be in sovrin_node's config
+
 # File that stores the version of the Node ran the last time it started. (It
 # might be incorrect sometimes if Node failed to update the file and crashed)
 lastRunVersionFile = 'last_version'
@@ -110,3 +113,5 @@ controlServicePort = "30003"
 logging level for agents
 '''
 agentLoggingLevel = logging.INFO
+
+attrDB = 'attr_db'
