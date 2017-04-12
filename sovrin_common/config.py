@@ -2,7 +2,7 @@ import os
 import logging
 from collections import OrderedDict
 
-from plenum.common.constants import ClientBootStrategy
+from plenum.common.constants import ClientBootStrategy, HS_LEVELDB
 from sovrin_common.constants import Environment
 
 nodeReg = OrderedDict([
@@ -34,7 +34,8 @@ outFilePath = "cli_output.log"
 clientBootStrategy = ClientBootStrategy.Custom
 
 hashStore = {
-    "type": "orientdb"
+    # "type": "orientdb"
+    "type": HS_LEVELDB
 }
 
 primaryStorage = None
