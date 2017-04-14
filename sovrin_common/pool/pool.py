@@ -4,5 +4,5 @@ class Pool:
     def genesis_transactions(self):
         raise NotImplementedError
 
-    def create_client(self):
+    def create_client(self, port: int):
         raise NotImplementedError
