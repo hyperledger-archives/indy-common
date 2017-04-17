@@ -24,6 +24,7 @@ CANCEL = 'cancel'
 COMPLETE = 'complete'
 FAIL = 'fail'
 JUSTIFICATION = 'justification'
+SIGNATURE_TYPE = 'signature_type'
 
 NULL = 'null'
 OWNER = '<owner>'
@@ -39,7 +40,7 @@ REVOCATION = "revocation"
 
 allOpKeys = (TXN_TYPE, TARGET_NYM, VERKEY, ORIGIN, ROLE, DATA, NONCE, REF, RAW,
              ENC, HASH, ALIAS, ACTION, SCHEDULE, TIMEOUT, SHA256, START, CANCEL,
-             NAME, VERSION, JUSTIFICATION)
+             NAME, VERSION, JUSTIFICATION, SIGNATURE_TYPE)
 
 reqOpKeys = (TXN_TYPE,)
 
@@ -73,8 +74,8 @@ fields = {NYM: ([TARGET_NYM], [ROLE]),
           ATTRIB: ([], [RAW, ENC, HASH]),
           SCHEMA: ([NAME, VERSION, ATTR_NAMES], [TYPE, ]),
           GET_SCHEMA: ([], []),
-          CLAIM_DEF: ([REF, DATA]),
-          GET_CLAIM_DEF: ([REF, ORIGIN])
+          CLAIM_DEF: ([REF, DATA, SIGNATURE_TYPE]),
+          GET_CLAIM_DEF: ([REF, ORIGIN, SIGNATURE_TYPE])
           }
 
 CONFIG_TXN_TYPES = {POOL_UPGRADE, NODE_UPGRADE}
