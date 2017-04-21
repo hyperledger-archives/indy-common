@@ -48,13 +48,13 @@ setup(
         '': ['*.txt', '*.md', '*.rst', '*.json', '*.conf', '*.html',
              '*.css', '*.ico', '*.png', 'LICENSE', 'LEGAL', '*.sovrin']},
     include_package_data=True,
-    data_files=[(
-        (BASE_DIR, ['data/pool_transactions_sandbox', ])
-    )],
-    install_requires=['plenum==0.3.8'],
+    #data_files=[(
+    #    (BASE_DIR, ['data/pool_transactions_sandbox', ])
+    #)],
+    install_requires=['plenum==0.3.10'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
     scripts=['scripts/get_keys',
              'scripts/generate_sovrin_pool_transactions',
-             'scripts/init_sovrin_raet_keep'],
+             'scripts/init_sovrin_keys'],
 )

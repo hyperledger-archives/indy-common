@@ -1,5 +1,5 @@
 from plenum.common.constants import TRUSTEE, STEWARD, NODE
-from plenum.common.log import getlogger
+from stp_core.common.log import getlogger
 from sovrin_common.constants import OWNER, POOL_UPGRADE, TGB, TRUST_ANCHOR, NYM
 from sovrin_common.roles import Roles
 
@@ -11,11 +11,11 @@ class Authoriser:
 
     AuthMap = {
         '{}_role__{}'.format(NYM, TRUSTEE):
-            {TRUSTEE: [],},
+            {TRUSTEE: []},
         '{}_role__{}'.format(NYM, TGB):
-            {TRUSTEE: [],},
+            {TRUSTEE: []},
         '{}_role__{}'.format(NYM, STEWARD):
-            {TRUSTEE: [], STEWARD: []},
+            {TRUSTEE: []},
         '{}_role__{}'.format(NYM, TRUST_ANCHOR):
             {TRUSTEE: [], STEWARD: []},
         '{}_role__'.format(NYM):
@@ -82,12 +82,14 @@ class Authoriser:
             str(newVal).replace('"', '').replace("'", '')
         key = '_'.join([typ, field, oldVal, newVal])
         if key not in Authoriser.AuthMap:
-            key = '_'.join([typ, field, '<any>', '<any>'])
-            if key not in Authoriser.AuthMap:
+            anyKey = '_'.join([typ, field, '<any>', '<any>'])
+            if anyKey not in Authoriser.AuthMap:
                 msg = "key '{}' not found in authorized map". \
                     format(key)
                 logger.error(msg)
                 return False, msg
+            else:
+                key = anyKey
         roles = Authoriser.AuthMap[key]
         if actorRole not in roles:
             return False, '{} not in allowed roles {}'.format(actorRole, roles)
