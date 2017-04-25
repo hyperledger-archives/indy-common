@@ -2,7 +2,7 @@ import os
 import logging
 from collections import OrderedDict
 
-from plenum.common.constants import ClientBootStrategy, HS_LEVELDB
+from plenum.common.constants import ClientBootStrategy, HS_LEVELDB, KeyValueStorageType
 from sovrin_common.constants import Environment
 
 nodeReg = OrderedDict([
@@ -25,7 +25,6 @@ baseDir = "~/.sovrin"
 domainTransactionsFile = "transactions_sandbox"
 poolTransactionsFile = "pool_transactions_sandbox"
 configTransactionsFile = "config_transactions"
-configStateDbName = 'config_state'
 
 logFilePath = "cli.log"
 
@@ -34,38 +33,17 @@ outFilePath = "cli_output.log"
 clientBootStrategy = ClientBootStrategy.Custom
 
 hashStore = {
-    # "type": "orientdb"
     "type": HS_LEVELDB
 }
 
 primaryStorage = None
 
-secondaryStorage = None
+configStateStorage = KeyValueStorageType.Leveldb
+idrCacheStorage = KeyValueStorageType.Leveldb
+attrStorage = KeyValueStorageType.Leveldb
 
-OrientDB = {
-    "user": "sovrin",
-    "password": "password",
-    "host": "127.0.0.1",
-    "port": 2424
-}
-
-'''
-Client has the identity graph or not. True will make the client have
-identity graph and False will make client not have it
-
-Possible values: True|False
-
-If True, then OrientDB is required.
-'''
-ClientIdentityGraph = False
-
-'''
-The storage type clients use to store requests and replies. Possible values
-are file and OrientDB.
-
-Possible values: "orientdb"|"file"
-'''
-ReqReplyStore = "file"
+configStateDbName = 'config_state'
+attrDbName = 'attr_db'
 
 RAETLogLevel = "concise"
 RAETLogLevelCli = "mute"
@@ -115,4 +93,4 @@ logging level for agents
 '''
 agentLoggingLevel = logging.INFO
 
-attrDB = 'attr_db'
+
