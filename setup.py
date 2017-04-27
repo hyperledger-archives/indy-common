@@ -51,7 +51,7 @@ setup(
 #    data_files=[(
 #        (BASE_DIR, ['data/pool_transactions_sandbox', ])
 #    )],
-    install_requires=['plenum-3pc-batch==0.3.84'],
+    install_requires=['plenum-3pc-batch==0.3.87'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
     scripts=['scripts/get_keys',
