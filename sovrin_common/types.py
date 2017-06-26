@@ -4,12 +4,12 @@ from hashlib import sha256
 
 from plenum.common.messages.message_base import MessageValidator, MessageBase
 from plenum.common.request import Request as PRequest
-from plenum.common.constants import TXN_TYPE, RAW, ENC, HASH
+from plenum.common.constants import TXN_TYPE, RAW, ENC, HASH, FORCE
 from plenum.common.types import OPERATION, \
     ClientMessageValidator as PClientMessageValidator, \
     ClientOperationField as PClientOperationField, TaggedTuples, \
     ConstantField, IdentifierField, NonEmptyStringField, \
-    JsonField, NonNegativeNumberField, MapField, LedgerIdField as PLedgerIdField
+    JsonField, NonNegativeNumberField, MapField, LedgerIdField as PLedgerIdField, BooleanField
 from plenum.common.util import check_endpoint_valid, is_network_ip_address_valid, is_network_port_valid
 
 from sovrin_common.constants import *
@@ -172,6 +172,7 @@ class ClientPoolUpgradeOperation(MessageValidator):
         (TIMEOUT, NonNegativeNumberField(optional=True)),
         (JUSTIFICATION, NonEmptyStringField(optional=True, nullable=True)),
         (NAME, NonEmptyStringField(optional=True)),
+        (FORCE, BooleanField(optional=True)),
     )
 
 
