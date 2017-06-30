@@ -9,8 +9,15 @@ from plenum.common.types import OPERATION, \
     ClientMessageValidator as PClientMessageValidator, \
     ClientOperationField as PClientOperationField, TaggedTuples, \
     ConstantField, IdentifierField, NonEmptyStringField, \
+<<<<<<< Updated upstream
     JsonField, NonNegativeNumberField, MapField, LedgerIdField as PLedgerIdField, BooleanField, VersionField
 from plenum.common.util import check_endpoint_valid, is_network_ip_address_valid, is_network_port_valid
+=======
+    JsonField, NonNegativeNumberField, IterableField, MapField, LedgerIdField as PLedgerIdField, \
+    BooleanField, TxnSeqNoField, Sha256HexField, LedgerInfoField as PLedgerInfoField, VersionField
+from plenum.common.util import check_endpoint_valid, \
+    is_network_ip_address_valid, is_network_port_valid
+>>>>>>> Stashed changes
 
 from sovrin_common.constants import *
 
@@ -65,7 +72,7 @@ class SchemaField(MessageValidator):
 
     schema = (
         (NAME, NonEmptyStringField()),
-        (VERSION, VersionField()),
+        (VERSION, VersionField(components_number=(2, 3,))),
         (ORIGIN, NonEmptyStringField(optional=True)),
     )
 
@@ -165,7 +172,7 @@ class ClientPoolUpgradeOperation(MessageValidator):
     schema = (
         (TXN_TYPE, ConstantField(POOL_UPGRADE)),
         (ACTION, NonEmptyStringField()),  # TODO check actual value set
-        (VERSION, VersionField()),
+        (VERSION, VersionField(components_number=(2, 3,))),
         # TODO replace actual checks (idr, datetime)
         (SCHEDULE, MapField(NonEmptyStringField(), NonEmptyStringField(), optional=True)),
         (SHA256, NonEmptyStringField()),
