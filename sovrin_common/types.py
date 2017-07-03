@@ -10,9 +10,9 @@ from plenum.common.types import OPERATION, \
     ClientOperationField as PClientOperationField, TaggedTuples, \
     ConstantField, IdentifierField, NonEmptyStringField, \
     JsonField, NonNegativeNumberField, IterableField, MapField, LedgerIdField as PLedgerIdField, \
-    BooleanField, TxnSeqNoField, Sha256HexField, LedgerInfoField as PLedgerInfoField
-from plenum.common.util import check_endpoint_valid, \
-    is_network_ip_address_valid, is_network_port_valid
+    BooleanField, LimitedLengthStringField, TxnSeqNoField, Sha256HexField, \
+    LedgerInfoField as PLedgerInfoField
+from plenum.common.util import check_endpoint_valid, is_network_ip_address_valid, is_network_port_valid
 
 from sovrin_common.constants import *
 
@@ -173,7 +173,7 @@ class ClientPoolUpgradeOperation(MessageValidator):
                             NonEmptyStringField(), optional=True)),
         (SHA256, Sha256HexField()),
         (TIMEOUT, NonNegativeNumberField(optional=True)),
-        (JUSTIFICATION, NonEmptyStringField(optional=True, nullable=True)),
+        (JUSTIFICATION, LimitedLengthStringField(max_length=1000, optional=True, nullable=True)),
         (NAME, NonEmptyStringField(optional=True)),
         (FORCE, BooleanField(optional=True)),
     )
