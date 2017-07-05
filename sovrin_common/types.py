@@ -12,7 +12,7 @@ from plenum.common.messages.node_messages import \
     JsonField, NonNegativeNumberField, IterableField, MapField, LedgerIdField as PLedgerIdField, \
     BooleanField, LimitedLengthStringField, TxnSeqNoField, Sha256HexField, \
     LedgerInfoField as PLedgerInfoField, \
-    JsonField, NonNegativeNumberField, MapField, LedgerIdField as PLedgerIdField, BooleanField
+    JsonField, NonNegativeNumberField, MapField, LedgerIdField as PLedgerIdField, BooleanField, VersionField
 from plenum.common.messages.client_request import ClientOperationField as PClientOperationField
 from plenum.common.messages.client_request import ClientMessageValidator as PClientMessageValidator
 from plenum.common.util import check_endpoint_valid, is_network_ip_address_valid, is_network_port_valid
@@ -70,7 +70,7 @@ class SchemaField(MessageValidator):
 
     schema = (
         (NAME, NonEmptyStringField()),
-        (VERSION, NonEmptyStringField()),
+        (VERSION, VersionField(components_number=(2, 3,))),
         (ORIGIN, NonEmptyStringField(optional=True)),
     )
 
@@ -170,7 +170,7 @@ class ClientPoolUpgradeOperation(MessageValidator):
     schema = (
         (TXN_TYPE, ConstantField(POOL_UPGRADE)),
         (ACTION, NonEmptyStringField()),  # TODO check actual value set
-        (VERSION, NonEmptyStringField()),
+        (VERSION, VersionField(components_number=(2, 3,))),
         # TODO replace actual checks (idr, datetime)
         (SCHEDULE, MapField(NonEmptyStringField(),
                             NonEmptyStringField(), optional=True)),
